@@ -3,10 +3,14 @@ import { ref } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
 import AppButton from '@/components/AppButton.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
+import AppTextField from '@/components/AppTextField.vue'
+import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
+import { fieldInfo } from '@/copy/fieldInfo'
 
 const isSearchPanelOpen = ref(true)
 const dataset = ref<DatasetId>('rechtspraak')
+const semanticQuery = ref('')
 </script>
 
 <template>
@@ -50,14 +54,19 @@ const dataset = ref<DatasetId>('rechtspraak')
           <IconClass name="close" icon-class="close-icon" />
         </button>
       </div>
-      <p class="search-panel-intro">
-        Build your query for the citation analysis here. We offer three different Case Law datasets:
-        Rechtspraak, ECHR and CJEU.
-      </p>
+      <p class="search-panel-intro">Build your query for the citation analysis here.</p>
       <section class="search-panel-body" aria-label="Query builder">
         <div class="form-section">
-          <span class="form-label">Dataset</span>
+          <FormLabelWithInfo label="Dataset" :info-text="fieldInfo.dataset" />
           <DatasetTabs v-model="dataset" />
+        </div>
+        <div class="form-section">
+          <FormLabelWithInfo label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
+          <AppTextField
+            v-model="semanticQuery"
+            type="search"
+            placeholder="Example: There is non-conformity even when the war…"
+          />
         </div>
       </section>
     </aside>
@@ -196,12 +205,6 @@ const dataset = ref<DatasetId>('rechtspraak')
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-}
-
-.form-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: hsl(var(--foreground));
 }
 
 @media (max-width: 900px) {

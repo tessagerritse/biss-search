@@ -42,3 +42,15 @@ h2 {
   font-weight: inherit;
   margin: 0;
 }
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}

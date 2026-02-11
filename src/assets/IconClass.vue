@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    name: 'clock' | 'plus' | 'upload' | 'close'
+    name: 'clock' | 'plus' | 'upload' | 'close' | 'info'
     iconClass?: string
   }>(),
   { iconClass: '' },
@@ -37,6 +37,12 @@ withDefaults(
     <!-- Close -->
     <template v-else-if="name === 'close'">
       <path d="M18 6L6 18M6 6l12 12" />
+    </template>
+    <!-- Info -->
+    <template v-else-if="name === 'info'">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="10" x2="12" y2="16" />
+      <circle cx="12" cy="6.5" r="2" fill="currentColor" />
     </template>
   </svg>
 </template>
