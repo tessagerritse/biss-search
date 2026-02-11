@@ -9,6 +9,7 @@ import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
 import DateRangeField from '@/components/DateRangeField.vue'
+import CollapsibleSection from '@/components/CollapsibleSection.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
@@ -86,7 +87,9 @@ const maxResults = ref(5)
           <KeywordsField v-model="keywords" />
         </div>
         <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
-        <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
+        <CollapsibleSection title="Date range" :info-text="fieldInfo.dateRange">
+          <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
+        </CollapsibleSection>
         <div class="form-section">
           <span class="form-label">Max number of results</span>
           <AppNumberField v-model="maxResults" :min="1" />

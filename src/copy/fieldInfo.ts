@@ -9,4 +9,6 @@ export const fieldInfo = {
     'Describe your legal question or the situation in natural language. The search will find cases that are semantically similar to your description.',
   keywords:
     'Add one or more keywords to narrow your search. Type a term and press Enter or comma to add it. You can add multiple keywords.',
+  dateRange:
+    'Limit search results to documents within this date range. Start and end dates use DD/MM/YYYY format; both are limited to today or earlier.',
 } as const

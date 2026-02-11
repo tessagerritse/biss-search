@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    name: 'clock' | 'plus' | 'upload' | 'close' | 'info' | 'search' | 'and' | 'or' | 'calendar'
+    name: 'clock' | 'plus' | 'upload' | 'close' | 'info' | 'search' | 'and' | 'or' | 'calendar' | 'chevron-down'
     iconClass?: string
   }>(),
   { iconClass: '' },
@@ -65,6 +65,10 @@ withDefaults(
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
       <line x1="3" y1="10" x2="21" y2="10" />
+    </template>
+    <!-- Chevron down -->
+    <template v-else-if="name === 'chevron-down'">
+      <polyline points="6 9 12 15 18 9" />
     </template>
   </svg>
 </template>
