@@ -95,6 +95,9 @@ const maxResults = ref(5)
           <FormLabel label="Max number of results" />
           <AppNumberField v-model="maxResults" :min="1" />
         </div>
+        <CollapsibleSection title="Instances" :info-text="fieldInfo.instances">
+          <InstancesField />
+        </CollapsibleSection>
       </section>
     </aside>
   </div>
