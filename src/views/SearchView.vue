@@ -74,11 +74,11 @@ const keywords = ref<string[]>([])
             placeholder="Example: There is non-conformity even when the war…"
           />
         </div>
-        <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
         <div class="form-section">
           <FormLabelWithInfo label="Keywords" :info-text="fieldInfo.keywords" />
           <KeywordsField v-model="keywords" />
         </div>
+        <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
       </section>
     </aside>
   </div>
