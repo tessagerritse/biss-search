@@ -22,6 +22,7 @@ const {
   submitDisabled,
   submitDisabledTooltip,
   submitSearch,
+  resetForm,
   dummySearchQueryTitle,
 } = useSearchForm()
 </script>
@@ -65,6 +66,7 @@ const {
       @update:degrees-targets="degreesTargets = $event"
       @update:document-types="documentTypes = $event"
       @submit="submitSearch"
+      @reset="resetForm"
     />
   </div>
 </template>

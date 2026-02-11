@@ -89,6 +89,22 @@ export function useSearchForm() {
     }, 1500)
   }
 
+  /** Reset form to initial state (same as page refresh). */
+  function resetForm() {
+    dataset.value = 'rechtspraak'
+    semanticQuery.value = ''
+    lawRefsOperator.value = 'and'
+    lawRefsQuery.value = ''
+    keywords.value = []
+    startDate.value = '1990-01-01'
+    endDate.value = todayISO()
+    maxResults.value = 5
+    degreesSources.value = 0
+    degreesTargets.value = 0
+    documentTypes.value = { decision: true, opinion: false }
+    initialFormSnapshot.value = createSearchFormSnapshot(getFormState())
+  }
+
   return {
     isSearchPanelOpen,
     dataset,
@@ -107,6 +123,7 @@ export function useSearchForm() {
     submitDisabled,
     submitDisabledTooltip,
     submitSearch,
+    resetForm,
     dummySearchQueryTitle: DUMMY_SEARCH_QUERY_TITLE,
   }
 }

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import IconClass from '@/assets/IconClass.vue'
 import AppTextField from '@/components/reusable/AppTextField.vue'
-import SubmitSearchButton from '@/components/reusable/SubmitSearchButton.vue'
+import AppButton from '@/components/reusable/AppButton.vue'
+import SubmitSearchButton from '@/components/SubmitSearchButton.vue'
 import FormLabel from '@/components/reusable/FormLabel.vue'
 import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
@@ -34,6 +35,7 @@ defineProps<{
 
 const emit = defineEmits<{
   submit: []
+  reset: []
   close: []
   'update:dataset': [value: DatasetId]
   'update:semanticQuery': [value: string]
@@ -78,11 +80,7 @@ const emit = defineEmits<{
           />
         </div>
         <div class="search-pane__section">
-          <FormLabel
-            label="Semantic Search"
-            :info-text="fieldInfo.semanticSearch"
-            required
-          />
+          <FormLabel label="Semantic Search" :info-text="fieldInfo.semanticSearch" required />
           <AppTextField
             :model-value="semanticQuery"
             type="search"
@@ -140,6 +138,7 @@ const emit = defineEmits<{
       </section>
     </div>
     <footer class="search-pane__footer">
+      <AppButton type="button" class="search-pane__reset" @click="emit('reset')"> Reset </AppButton>
       <SubmitSearchButton
         :disabled="submitDisabled"
         :disabled-tooltip="submitDisabledTooltip"
@@ -250,9 +249,15 @@ const emit = defineEmits<{
   flex-shrink: 0;
   padding: 1rem 0.75rem 1.25rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
   background: hsl(var(--background));
   border-top: 1px solid hsl(var(--border));
+}
+
+.search-pane__reset {
+  min-width: 5rem;
 }
 
 @media (max-width: 900px) {
