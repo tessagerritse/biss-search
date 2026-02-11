@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
+import AppButton from '@/components/AppButton.vue'
+import DatasetTabs from '@/components/DatasetTabs.vue'
+import type { DatasetId } from '@/components/DatasetTabs.vue'
 
 const isSearchPanelOpen = ref(true)
+const dataset = ref<DatasetId>('rechtspraak')
 </script>
 
 <template>
@@ -10,24 +14,23 @@ const isSearchPanelOpen = ref(true)
     <aside class="sidebar sidebar-left" aria-label="Queries">
       <h2 class="sidebar-title">Queries</h2>
       <div class="sidebar-actions">
-        <button type="button" class="action-btn">
+        <AppButton appearance="default" class="action-btn">
           <IconClass name="clock" icon-class="action-icon" />
           <span>History</span>
-        </button>
-        <button
-          type="button"
+        </AppButton>
+        <AppButton
+          :appearance="isSearchPanelOpen ? 'emphasized' : 'default'"
           class="action-btn"
-          :class="{ active: isSearchPanelOpen }"
           aria-label="Open search panel"
           @click="isSearchPanelOpen = true"
         >
           <IconClass name="plus" icon-class="action-icon" />
           <span>Create</span>
-        </button>
-        <button type="button" class="action-btn">
+        </AppButton>
+        <AppButton appearance="default" class="action-btn">
           <IconClass name="upload" icon-class="action-icon" />
           <span>Import</span>
-        </button>
+        </AppButton>
       </div>
     </aside>
 
@@ -52,7 +55,10 @@ const isSearchPanelOpen = ref(true)
         Rechtspraak, ECHR and CJEU.
       </p>
       <section class="search-panel-body" aria-label="Query builder">
-        <!-- Form content will be added later -->
+        <div class="form-section">
+          <span class="form-label">Dataset</span>
+          <DatasetTabs v-model="dataset" />
+        </div>
       </section>
     </aside>
   </div>
@@ -89,31 +95,10 @@ const isSearchPanelOpen = ref(true)
   gap: 0.5rem;
 }
 
-.action-btn {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  background: transparent;
-  border: 1px solid hsl(var(--border));
-  border-radius: calc(var(--radius) - 2px);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: hsl(var(--foreground));
-  cursor: pointer;
+.sidebar-actions .action-btn {
+  width: 100%;
+  justify-content: flex-start;
   text-align: left;
-}
-
-.action-btn:hover {
-  background: hsl(var(--accent));
-  color: hsl(var(--accent-foreground));
-}
-
-.action-btn.active {
-  background: hsl(var(--accent));
-  border-color: hsl(var(--primary));
-  color: hsl(var(--accent-foreground));
 }
 
 .action-icon {
@@ -201,8 +186,22 @@ const isSearchPanelOpen = ref(true)
 }
 
 .search-panel-body {
-  min-height: 120px;
   padding: 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
 }
 
 @media (max-width: 900px) {
