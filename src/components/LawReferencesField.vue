@@ -2,6 +2,7 @@
 import IconClass from '@/assets/IconClass.vue'
 import AppButton from '@/components/AppButton.vue'
 import AppTextField from '@/components/AppTextField.vue'
+import FormLabel from '@/components/FormLabel.vue'
 
 export type LawRefsOperator = 'and' | 'or'
 
@@ -24,10 +25,10 @@ function setOperator(value: LawRefsOperator) {
 </script>
 
 <template>
-  <div class="law-refs-section" role="group" aria-labelledby="law-refs-heading">
+  <div class="law-refs-section" role="group">
     <div class="form-section form-section--label-row">
       <div class="form-label-row form-label-row--with-action">
-        <span id="law-refs-heading" class="form-label">Law references</span>
+        <FormLabel label="Law references" />
         <div
           class="law-refs-operator"
           role="group"

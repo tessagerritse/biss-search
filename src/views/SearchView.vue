@@ -5,7 +5,7 @@ import AppButton from '@/components/AppButton.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
 import AppTextField from '@/components/AppTextField.vue'
 import AppNumberField from '@/components/AppNumberField.vue'
-import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
+import FormLabel from '@/components/FormLabel.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
 import DateRangeField from '@/components/DateRangeField.vue'
@@ -71,11 +71,11 @@ const maxResults = ref(5)
       <p class="search-panel-intro">Build your query for the citation analysis here.</p>
       <section class="search-panel-body" aria-label="Query builder">
         <div class="form-section">
-          <FormLabelWithInfo label="Dataset" :info-text="fieldInfo.dataset" />
+          <FormLabel label="Dataset" :info-text="fieldInfo.dataset" />
           <DatasetTabs v-model="dataset" />
         </div>
         <div class="form-section">
-          <FormLabelWithInfo label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
+          <FormLabel label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
           <AppTextField
             v-model="semanticQuery"
             type="search"
@@ -83,7 +83,7 @@ const maxResults = ref(5)
           />
         </div>
         <div class="form-section">
-          <FormLabelWithInfo label="Keywords" :info-text="fieldInfo.keywords" />
+          <FormLabel label="Keywords" :info-text="fieldInfo.keywords" />
           <KeywordsField v-model="keywords" />
         </div>
         <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
@@ -91,7 +91,7 @@ const maxResults = ref(5)
           <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
         </CollapsibleSection>
         <div class="form-section">
-          <span class="form-label">Max number of results</span>
+          <FormLabel label="Max number of results" />
           <AppNumberField v-model="maxResults" :min="1" />
         </div>
       </section>

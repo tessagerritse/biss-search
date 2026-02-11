@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
+import FormLabel from '@/components/FormLabel.vue'
 import { toDDMMYYYY, todayISO } from '@/utils/date'
 
 const props = defineProps<{
@@ -51,7 +52,7 @@ function onEndChange(e: Event) {
 <template>
   <div class="date-range-field">
     <div class="form-section">
-      <span class="form-label">Start Date</span>
+      <FormLabel label="Start Date" />
       <div class="date-input-wrap" role="button" tabindex="0" @click="openStartPicker" @keydown.enter.prevent="openStartPicker" @keydown.space.prevent="openStartPicker">
         <input
           ref="startNativeRef"
@@ -75,7 +76,7 @@ function onEndChange(e: Event) {
       </div>
     </div>
     <div class="form-section">
-      <span class="form-label">End Date</span>
+      <FormLabel label="End Date" />
       <div class="date-input-wrap" role="button" tabindex="0" @click="openEndPicker" @keydown.enter.prevent="openEndPicker" @keydown.space.prevent="openEndPicker">
         <input
           ref="endNativeRef"
