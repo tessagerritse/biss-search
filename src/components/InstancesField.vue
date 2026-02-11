@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import CollapsibleCheckboxGroup from '@/components/reusable/CollapsibleCheckboxGroup.vue'
+
 import { INSTANCE_FLAT_OPTIONS, INSTANCE_GROUPS } from '@/copy/instanceOptions'
 
 const allIds = [
@@ -8,19 +10,13 @@ const allIds = [
   ...INSTANCE_GROUPS.flatMap((g) => [g.id, ...g.children.map((c) => c.id)]),
 ]
 
-const selected = ref<Record<string, boolean>>(
-  Object.fromEntries(allIds.map((id) => [id, false])),
-)
+const selected = ref<Record<string, boolean>>(Object.fromEntries(allIds.map((id) => [id, false])))
 </script>
 
 <template>
   <div class="instances-field">
     <div class="instances-field__flat">
-      <div
-        v-for="option in INSTANCE_FLAT_OPTIONS"
-        :key="option.id"
-        class="instances-field__option"
-      >
+      <div v-for="option in INSTANCE_FLAT_OPTIONS" :key="option.id" class="instances-field__option">
         <span class="instances-field__spacer" aria-hidden="true" />
         <input
           :id="`inst-${option.id}`"

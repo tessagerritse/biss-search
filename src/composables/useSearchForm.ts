@@ -1,7 +1,9 @@
 import { computed, onMounted, ref } from 'vue'
+
 import { DUMMY_SEARCH_QUERY_TITLE, DUMMY_SEARCH_RESULTS } from '@/copy/dummySearchResults'
-import { createSearchFormSnapshot, isFormPristine } from '@/utils/searchFormState'
+
 import { todayISO } from '@/utils/date'
+import { createSearchFormSnapshot, isFormPristine } from '@/utils/searchFormState'
 
 type DatasetId = 'rechtspraak' | 'echr' | 'cjeu'
 type LawRefsOperator = 'and' | 'or'

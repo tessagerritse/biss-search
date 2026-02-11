@@ -1,7 +1,17 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    name: 'clock' | 'plus' | 'upload' | 'close' | 'info' | 'search' | 'and' | 'or' | 'calendar' | 'chevron-down'
+    name:
+      | 'clock'
+      | 'plus'
+      | 'upload'
+      | 'close'
+      | 'info'
+      | 'search'
+      | 'and'
+      | 'or'
+      | 'calendar'
+      | 'chevron-down'
     iconClass?: string
   }>(),
   { iconClass: '' },
