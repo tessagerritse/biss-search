@@ -13,7 +13,13 @@ const isSearchPanelOpen = ref(true)
           <span class="action-icon">🕐</span>
           History
         </button>
-        <button type="button" class="action-btn">
+        <button
+          type="button"
+          class="action-btn"
+          :class="{ active: isSearchPanelOpen }"
+          aria-label="Open search panel"
+          @click="isSearchPanelOpen = true"
+        >
           <span class="action-icon">+</span>
           Create
         </button>
@@ -102,6 +108,11 @@ const isSearchPanelOpen = ref(true)
 .action-btn:hover {
   background: #f0f0f0;
   border-color: #ccc;
+}
+
+.action-btn.active {
+  background: #e8e8e8;
+  border-color: #999;
 }
 
 .action-icon {
