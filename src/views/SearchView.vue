@@ -1,269 +1,86 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import IconClass from '@/assets/IconClass.vue'
-import AppButton from '@/components/reusable/AppButton.vue'
-import DatasetTabs from '@/components/DatasetTabs.vue'
-import AppTextField from '@/components/reusable/AppTextField.vue'
-import FormLabel from '@/components/reusable/FormLabel.vue'
-import AppNumberField from '@/components/reusable/AppNumberField.vue'
-import LawReferencesField from '@/components/LawReferencesField.vue'
-import KeywordsField from '@/components/KeywordsField.vue'
-import DateRangeField from '@/components/DateRangeField.vue'
-import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
-import InstancesField from '@/components/InstancesField.vue'
-import DomainsField from '@/components/DomainsField.vue'
-import AdvancedSettingsField from '@/components/AdvancedSettingsField.vue'
-import type { DatasetId } from '@/components/DatasetTabs.vue'
-import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
-import { fieldInfo } from '@/copy/fieldInfo'
-import { todayISO } from '@/utils/date'
+import QueriesPane from '@/components/QueriesPane.vue'
+import ResultsPane from '@/components/ResultsPane.vue'
+import SearchPane from '@/components/SearchPane.vue'
+import { useSearchForm } from '@/composables/useSearchForm'
 
-const isSearchPanelOpen = ref(true)
-const dataset = ref<DatasetId>('rechtspraak')
-const semanticQuery = ref('')
-const lawRefsOperator = ref<LawRefsOperator>('and')
-const lawRefsQuery = ref('')
-const keywords = ref<string[]>([])
-
-const startDate = ref('1990-01-01')
-const endDate = ref(todayISO())
-const maxResults = ref(5)
-const degreesSources = ref(0)
-const degreesTargets = ref(0)
-const documentTypes = ref<Record<string, boolean>>({
-  decision: true,
-  opinion: false,
-})
+const {
+  isSearchPanelOpen,
+  dataset,
+  semanticQuery,
+  lawRefsOperator,
+  lawRefsQuery,
+  keywords,
+  startDate,
+  endDate,
+  maxResults,
+  degreesSources,
+  degreesTargets,
+  documentTypes,
+  isSearching,
+  searchResults,
+  submitDisabled,
+  submitDisabledTooltip,
+  submitSearch,
+  resetForm,
+  dummySearchQueryTitle,
+} = useSearchForm()
 </script>
 
 <template>
-  <div class="search-layout">
-    <aside class="sidebar sidebar-left" aria-label="Queries">
-      <h2 class="sidebar-title">Queries</h2>
-      <div class="sidebar-actions">
-        <AppButton appearance="default" class="action-btn">
-          <IconClass name="clock" icon-class="action-icon" />
-          <span>History</span>
-        </AppButton>
-        <AppButton
-          :appearance="isSearchPanelOpen ? 'emphasized' : 'default'"
-          class="action-btn"
-          aria-label="Open search panel"
-          @click="isSearchPanelOpen = true"
-        >
-          <IconClass name="plus" icon-class="action-icon" />
-          <span>Create</span>
-        </AppButton>
-        <AppButton appearance="default" class="action-btn">
-          <IconClass name="upload" icon-class="action-icon" />
-          <span>Import</span>
-        </AppButton>
-      </div>
-    </aside>
-
-    <main class="content-main" aria-label="Search results">
-      <p class="results-placeholder">Search results will appear here</p>
-    </main>
-
-    <aside v-show="isSearchPanelOpen" class="sidebar sidebar-right" aria-label="Search Documents">
-      <div class="search-panel-header">
-        <h2 class="search-panel-title">Search Documents</h2>
-        <button
-          type="button"
-          class="close-btn"
-          aria-label="Close search panel"
-          @click="isSearchPanelOpen = false"
-        >
-          <IconClass name="close" icon-class="close-icon" />
-        </button>
-      </div>
-      <p class="search-panel-intro">Build your query for the citation analysis here.</p>
-      <section class="search-panel-body" aria-label="Query builder">
-        <div class="form-section">
-          <FormLabel label="Dataset" :info-text="fieldInfo.dataset" />
-          <DatasetTabs v-model="dataset" />
-        </div>
-        <div class="form-section">
-          <FormLabel label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
-          <AppTextField
-            v-model="semanticQuery"
-            type="search"
-            placeholder="Example: There is non-conformity even when the war…"
-          />
-        </div>
-        <div class="form-section">
-          <FormLabel label="Keywords" :info-text="fieldInfo.keywords" />
-          <KeywordsField v-model="keywords" />
-        </div>
-        <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
-        <CollapsibleSection title="Date range" :info-text="fieldInfo.dateRange">
-          <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
-        </CollapsibleSection>
-        <div class="form-section">
-          <FormLabel label="Max number of results" />
-          <AppNumberField v-model="maxResults" :min="1" />
-        </div>
-        <CollapsibleSection title="Instances" :info-text="fieldInfo.instances">
-          <InstancesField />
-        </CollapsibleSection>
-        <CollapsibleSection title="Domains" :info-text="fieldInfo.domains">
-          <DomainsField />
-        </CollapsibleSection>
-        <CollapsibleSection title="Advanced Settings" :default-open="false">
-          <AdvancedSettingsField
-            v-model:degrees-sources="degreesSources"
-            v-model:degrees-targets="degreesTargets"
-            v-model:document-types="documentTypes"
-          />
-        </CollapsibleSection>
-      </section>
-    </aside>
+  <div class="search-view">
+    <QueriesPane
+      :is-search-panel-open="isSearchPanelOpen"
+      @open-search-panel="isSearchPanelOpen = true"
+    />
+    <ResultsPane
+      :is-searching="isSearching"
+      :results="searchResults"
+      :query-title="dummySearchQueryTitle"
+    />
+    <SearchPane
+      v-show="isSearchPanelOpen"
+      :submit-disabled="submitDisabled"
+      :submit-disabled-tooltip="submitDisabledTooltip"
+      :dataset="dataset"
+      :semantic-query="semanticQuery"
+      :law-refs-operator="lawRefsOperator"
+      :law-refs-query="lawRefsQuery"
+      :keywords="keywords"
+      :start-date="startDate"
+      :end-date="endDate"
+      :max-results="maxResults"
+      :degrees-sources="degreesSources"
+      :degrees-targets="degreesTargets"
+      :document-types="documentTypes"
+      @close="isSearchPanelOpen = false"
+      @update:dataset="dataset = $event"
+      @update:semantic-query="semanticQuery = $event"
+      @update:law-refs-operator="lawRefsOperator = $event"
+      @update:law-refs-query="lawRefsQuery = $event"
+      @update:keywords="keywords = $event"
+      @update:start-date="startDate = $event"
+      @update:end-date="endDate = $event"
+      @update:max-results="maxResults = $event"
+      @update:degrees-sources="degreesSources = $event"
+      @update:degrees-targets="degreesTargets = $event"
+      @update:document-types="documentTypes = $event"
+      @submit="submitSearch"
+      @reset="resetForm"
+    />
   </div>
 </template>
 
 <style scoped>
-.search-layout {
+.search-view {
   display: grid;
   grid-template-columns: minmax(200px, 240px) 1fr;
   min-height: 100vh;
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background: hsl(var(--background));
-  border-right: 1px solid hsl(var(--border));
-}
-
-.sidebar-left {
-  padding: 1rem 0.75rem;
-}
-
-.sidebar-title {
-  font-size: inherit;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: hsl(var(--foreground));
-}
-
-.sidebar-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.sidebar-actions .action-btn {
-  width: 100%;
-  justify-content: flex-start;
-  text-align: left;
-}
-
-.action-icon {
-  flex-shrink: 0;
-  order: 0;
-  width: 1rem;
-  height: 1rem;
-}
-
-.close-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.content-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background: hsl(var(--background));
-}
-
-.results-placeholder {
-  font-size: 0.875rem;
-  color: hsl(var(--muted-foreground));
-}
-
-.sidebar-right {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 51;
-  width: 425px;
-  max-width: 425px;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 4px;
-  overflow-y: auto;
-  background: hsl(var(--background));
-  border-left: 1px solid rgb(226, 232, 240);
-  box-shadow: var(--panel-shadow);
-}
-
-.search-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0 0.75rem;
-}
-
-.search-panel-title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-  margin: 0;
-  color: hsl(var(--foreground));
-}
-
-.close-btn {
-  padding: 0.25rem;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: hsl(var(--muted-foreground));
-  cursor: pointer;
-  border-radius: calc(var(--radius) - 4px);
-}
-
-.close-btn:hover {
-  background: hsl(var(--accent));
-  color: hsl(var(--foreground));
-}
-
-.search-panel-intro {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: hsl(var(--muted-foreground));
-  margin: 0 0 1rem;
-  padding: 0 0.75rem;
-}
-
-.search-panel-body {
-  padding: 0 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
 @media (max-width: 900px) {
-  .search-layout {
+  .search-view {
     grid-template-columns: 1fr;
-  }
-
-  .sidebar-right {
-    width: 100%;
-    max-width: none;
-    border-left: none;
-    border-top: 1px solid rgb(226, 232, 240);
   }
 }
 </style>
