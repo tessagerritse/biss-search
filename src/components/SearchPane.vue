@@ -17,7 +17,8 @@ import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
 
 defineProps<{
-  isFormPristine: boolean
+  submitDisabled: boolean
+  submitDisabledTooltip: string | undefined
   dataset: DatasetId
   semanticQuery: string
   lawRefsOperator: LawRefsOperator
@@ -66,6 +67,9 @@ const emit = defineEmits<{
     </div>
     <div class="search-pane__scroll">
       <section class="search-pane__body" aria-label="Query builder">
+        <p class="search-pane__required-summary">
+          Required: semantic search, and either law references or keywords.
+        </p>
         <div class="search-pane__section">
           <FormLabel label="Dataset" :info-text="fieldInfo.dataset" />
           <DatasetTabs
@@ -74,7 +78,11 @@ const emit = defineEmits<{
           />
         </div>
         <div class="search-pane__section">
-          <FormLabel label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
+          <FormLabel
+            label="Semantic Search"
+            :info-text="fieldInfo.semanticSearch"
+            required
+          />
           <AppTextField
             :model-value="semanticQuery"
             type="search"
@@ -133,8 +141,8 @@ const emit = defineEmits<{
     </div>
     <footer class="search-pane__footer">
       <SubmitSearchButton
-        :disabled="isFormPristine"
-        disabled-tooltip="Change at least one search field to enable Submit"
+        :disabled="submitDisabled"
+        :disabled-tooltip="submitDisabledTooltip"
         @submit="emit('submit')"
       />
     </footer>
@@ -223,6 +231,13 @@ const emit = defineEmits<{
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.search-pane__required-summary {
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 1rem;
+  line-height: 1.4;
 }
 
 .search-pane__section {
