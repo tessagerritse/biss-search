@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import IconClass from '@/assets/IconClass.vue'
-import AppButton from '@/components/AppButton.vue'
-import AppTextField from '@/components/AppTextField.vue'
-import FormLabel from '@/components/FormLabel.vue'
+import AppButton from '@/components/reusable/AppButton.vue'
+import AppTextField from '@/components/reusable/AppTextField.vue'
+import FormLabel from '@/components/reusable/FormLabel.vue'
 
 export type LawRefsOperator = 'and' | 'or'
 

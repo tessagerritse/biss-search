@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
-import InfoButton from '@/components/InfoButton.vue'
+import InfoButton from '@/components/reusable/InfoButton.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -46,11 +46,7 @@ function toggle() {
         <IconClass name="chevron-down" icon-class="collapsible-section__chevron" />
       </span>
     </div>
-    <div
-      :id="sectionId"
-      class="collapsible-section__content"
-      :hidden="!isOpen"
-    >
+    <div :id="sectionId" class="collapsible-section__content" :hidden="!isOpen">
       <slot />
     </div>
   </div>

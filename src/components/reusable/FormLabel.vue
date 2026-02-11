@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InfoButton from '@/components/InfoButton.vue'
+import InfoButton from '@/components/reusable/InfoButton.vue'
 
 defineProps<{
   label: string

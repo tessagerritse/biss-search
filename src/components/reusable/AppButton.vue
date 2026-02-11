@@ -13,7 +13,7 @@ withDefaults(
     type: 'button',
     disabled: false,
     groupPosition: 'only',
-  }
+  },
 )
 </script>
 
@@ -43,7 +43,10 @@ withDefaults(
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
 }
 
 .app-btn:disabled {

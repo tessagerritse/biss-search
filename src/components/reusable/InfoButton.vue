@@ -47,7 +47,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="wrapRef" class="info-button" :class="{ 'info-button--popover-right': popoverAlign === 'right' }">
+  <div
+    ref="wrapRef"
+    class="info-button"
+    :class="{ 'info-button--popover-right': popoverAlign === 'right' }"
+  >
     <button
       type="button"
       class="info-button__btn"
