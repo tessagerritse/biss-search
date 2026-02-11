@@ -6,6 +6,7 @@ import DatasetTabs from '@/components/DatasetTabs.vue'
 import AppTextField from '@/components/AppTextField.vue'
 import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
+import KeywordsField from '@/components/KeywordsField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
@@ -15,6 +16,7 @@ const dataset = ref<DatasetId>('rechtspraak')
 const semanticQuery = ref('')
 const lawRefsOperator = ref<LawRefsOperator>('and')
 const lawRefsQuery = ref('')
+const keywords = ref<string[]>([])
 </script>
 
 <template>
@@ -72,10 +74,11 @@ const lawRefsQuery = ref('')
             placeholder="Example: There is non-conformity even when the war…"
           />
         </div>
-        <LawReferencesField
-          v-model:query="lawRefsQuery"
-          v-model:operator="lawRefsOperator"
-        />
+        <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
+        <div class="form-section">
+          <FormLabelWithInfo label="Keywords" :info-text="fieldInfo.keywords" />
+          <KeywordsField v-model="keywords" />
+        </div>
       </section>
     </aside>
   </div>
