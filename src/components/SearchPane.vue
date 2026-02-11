@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconClass from '@/assets/IconClass.vue'
 import AppTextField from '@/components/reusable/AppTextField.vue'
+import SubmitSearchButton from '@/components/reusable/SubmitSearchButton.vue'
 import FormLabel from '@/components/reusable/FormLabel.vue'
 import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
@@ -16,6 +17,7 @@ import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
 
 defineProps<{
+  isFormPristine: boolean
   dataset: DatasetId
   semanticQuery: string
   lawRefsOperator: LawRefsOperator
@@ -30,6 +32,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
+  submit: []
   close: []
   'update:dataset': [value: DatasetId]
   'update:semanticQuery': [value: string]
@@ -78,18 +81,28 @@ const emit = defineEmits<{
           />
         </div>
         <div class="search-pane__section">
+          <LawReferencesField
+            :query="lawRefsQuery"
+            :operator="lawRefsOperator"
+            @update:query="emit('update:lawRefsQuery', $event)"
+            @update:operator="emit('update:lawRefsOperator', $event)"
+          />
+        </div>
+        <div class="search-pane__section">
           <FormLabel label="Keywords" :info-text="fieldInfo.keywords" />
           <KeywordsField
             :model-value="keywords"
             @update:model-value="emit('update:keywords', $event)"
           />
         </div>
-        <LawReferencesField
-          :query="lawRefsQuery"
-          :operator="lawRefsOperator"
-          @update:query="emit('update:lawRefsQuery', $event)"
-          @update:operator="emit('update:lawRefsOperator', $event)"
-        />
+        <div class="search-pane__section">
+          <FormLabel label="Max results" />
+          <AppNumberField
+            :model-value="maxResults"
+            :min="1"
+            @update:model-value="emit('update:maxResults', $event)"
+          />
+        </div>
         <CollapsibleSection title="Date range" :info-text="fieldInfo.dateRange">
           <DateRangeField
             :start-date="startDate"
@@ -98,14 +111,6 @@ const emit = defineEmits<{
             @update:end-date="emit('update:endDate', $event)"
           />
         </CollapsibleSection>
-        <div class="search-pane__section">
-          <FormLabel label="Max number of results" />
-          <AppNumberField
-            :model-value="maxResults"
-            :min="1"
-            @update:model-value="emit('update:maxResults', $event)"
-          />
-        </div>
         <CollapsibleSection title="Instances" :info-text="fieldInfo.instances">
           <InstancesField />
         </CollapsibleSection>
@@ -124,6 +129,13 @@ const emit = defineEmits<{
         </CollapsibleSection>
       </section>
     </div>
+    <footer class="search-pane__footer">
+      <SubmitSearchButton
+        :disabled="isFormPristine"
+        disabled-tooltip="Change at least one search field to enable Submit"
+        @submit="emit('submit')"
+      />
+    </footer>
   </aside>
 </template>
 
@@ -133,49 +145,47 @@ const emit = defineEmits<{
   top: 0;
   right: 0;
   bottom: 0;
-  z-index: 51;
-  width: 425px;
-  max-width: 425px;
+  width: min(400px, 100vw);
   display: flex;
   flex-direction: column;
-  padding: 24px 0 0;
   background: hsl(var(--background));
-  border-left: 1px solid rgb(226, 232, 240);
-  box-shadow: var(--panel-shadow);
+  border-left: 1px solid hsl(var(--border));
+  box-shadow: -4px 0 12px hsl(0 0% 0% / 0.05);
+  z-index: 10;
 }
 
 .search-pane__header {
   flex-shrink: 0;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0 0.75rem;
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .search-pane__title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0;
   color: hsl(var(--foreground));
 }
 
 .search-pane__close {
-  padding: 0.25rem;
-  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  background: none;
   border: none;
-  font-size: 1.5rem;
-  line-height: 1;
+  border-radius: var(--radius);
   color: hsl(var(--muted-foreground));
   cursor: pointer;
-  border-radius: calc(var(--radius) - 4px);
 }
 
 .search-pane__close:hover {
   background: hsl(var(--accent));
-  color: hsl(var(--foreground));
+  color: hsl(var(--accent-foreground));
 }
 
 .search-pane__close-icon {
@@ -186,16 +196,17 @@ const emit = defineEmits<{
 .search-pane__intro {
   flex-shrink: 0;
   font-size: 0.875rem;
-  line-height: 1.25rem;
   color: hsl(var(--muted-foreground));
-  margin: 0 0 1rem;
-  padding: 0 0.75rem;
+  margin: 0;
+  padding: 0.75rem 0.75rem 0;
+  line-height: 1.45;
 }
 
 .search-pane__scroll {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  padding-bottom: 0.5rem;
 }
 
 .search-pane__body {
@@ -211,12 +222,21 @@ const emit = defineEmits<{
   gap: 0.35rem;
 }
 
+.search-pane__footer {
+  flex-shrink: 0;
+  padding: 1rem 0.75rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  background: hsl(var(--background));
+  border-top: 1px solid hsl(var(--border));
+}
+
 @media (max-width: 900px) {
   .search-pane {
     width: 100%;
     max-width: none;
     border-left: none;
-    border-top: 1px solid rgb(226, 232, 240);
+    border-top: 1px solid hsl(var(--border));
   }
 }
 </style>
