@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    name: 'clock' | 'plus' | 'upload' | 'close' | 'info'
+    name: 'clock' | 'plus' | 'upload' | 'close' | 'info' | 'search' | 'and' | 'or'
     iconClass?: string
   }>(),
   { iconClass: '' },
@@ -43,6 +43,21 @@ withDefaults(
       <circle cx="12" cy="12" r="10" fill="none" />
       <path d="M12 10v5" stroke="currentColor" fill="none" />
       <circle cx="12" cy="7.5" r="1.25" fill="currentColor" stroke="none" />
+    </template>
+    <!-- Search (magnifying glass) -->
+    <template v-else-if="name === 'search'">
+      <circle cx="11" cy="11" r="6" />
+      <path d="m16 16 4 4" />
+    </template>
+    <!-- AND: two circles overlapping (intersection) -->
+    <template v-else-if="name === 'and'">
+      <circle cx="9" cy="12" r="5" />
+      <circle cx="15" cy="12" r="5" />
+    </template>
+    <!-- OR: two circles side by side (union, no overlap) -->
+    <template v-else-if="name === 'or'">
+      <circle cx="8" cy="12" r="4" />
+      <circle cx="16" cy="12" r="4" />
     </template>
   </svg>
 </template>

@@ -24,7 +24,10 @@ const inputId = computed(() => props.id ?? `app-text-field-${uid}`)
 </script>
 
 <template>
-  <div class="app-text-field">
+  <div class="app-text-field" :class="{ 'app-text-field--with-leading': $slots.leading }">
+    <span v-if="$slots.leading" class="app-text-field__leading">
+      <slot name="leading" />
+    </span>
     <input
       :id="inputId"
       :value="modelValue"
@@ -41,6 +44,27 @@ const inputId = computed(() => props.id ?? `app-text-field-${uid}`)
 .app-text-field {
   display: flex;
   flex-direction: column;
+}
+
+.app-text-field--with-leading {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.app-text-field__leading {
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  border-right: none;
+  border-radius: calc(var(--radius) - 2px) 0 0 calc(var(--radius) - 2px);
+  background: hsl(var(--background));
+}
+
+.app-text-field--with-leading .app-text-field__input {
+  border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+  border-left: none;
 }
 
 .app-text-field__input {
