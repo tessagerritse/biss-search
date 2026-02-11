@@ -4,6 +4,7 @@ import IconClass from '@/assets/IconClass.vue'
 import AppButton from '@/components/AppButton.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
 import AppTextField from '@/components/AppTextField.vue'
+import AppNumberField from '@/components/AppNumberField.vue'
 import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
@@ -22,6 +23,7 @@ const keywords = ref<string[]>([])
 
 const startDate = ref('1990-01-01')
 const endDate = ref(todayISO())
+const maxResults = ref(5)
 </script>
 
 <template>
@@ -85,6 +87,10 @@ const endDate = ref(todayISO())
         </div>
         <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
         <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
+        <div class="form-section">
+          <span class="form-label">Max number of results</span>
+          <AppNumberField v-model="maxResults" :min="1" />
+        </div>
       </section>
     </aside>
   </div>

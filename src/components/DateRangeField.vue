@@ -123,7 +123,6 @@ function onEndChange(e: Event) {
   outline: none;
 }
 
-/* Overlay so the native date input receives the tap and opens the picker */
 .date-input-native {
   position: absolute;
   inset: 0;
