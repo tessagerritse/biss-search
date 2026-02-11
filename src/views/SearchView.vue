@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import IconClass from '@/assets/IconClass.vue'
 
 const isSearchPanelOpen = ref(true)
 </script>
@@ -10,8 +11,8 @@ const isSearchPanelOpen = ref(true)
       <h2 class="sidebar-title">Queries</h2>
       <div class="sidebar-actions">
         <button type="button" class="action-btn">
-          <span class="action-icon">🕐</span>
-          History
+          <IconClass name="clock" icon-class="action-icon" />
+          <span>History</span>
         </button>
         <button
           type="button"
@@ -20,12 +21,12 @@ const isSearchPanelOpen = ref(true)
           aria-label="Open search panel"
           @click="isSearchPanelOpen = true"
         >
-          <span class="action-icon">+</span>
-          Create
+          <IconClass name="plus" icon-class="action-icon" />
+          <span>Create</span>
         </button>
         <button type="button" class="action-btn">
-          <span class="action-icon">↑</span>
-          Import
+          <IconClass name="upload" icon-class="action-icon" />
+          <span>Import</span>
         </button>
       </div>
     </aside>
@@ -47,7 +48,7 @@ const isSearchPanelOpen = ref(true)
           aria-label="Close search panel"
           @click="isSearchPanelOpen = false"
         >
-          ×
+          <IconClass name="close" icon-class="close-icon" />
         </button>
       </div>
       <p class="search-panel-intro">
@@ -64,26 +65,26 @@ const isSearchPanelOpen = ref(true)
 <style scoped>
 .search-layout {
   display: grid;
-  grid-template-columns: minmax(200px, 240px) 1fr minmax(280px, 380px);
+  grid-template-columns: minmax(200px, 240px) 1fr;
   min-height: 100vh;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
-  background: #f5f5f5;
-  border-right: 1px solid #e0e0e0;
+  background: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
 }
 
 .sidebar-left {
-  padding: 1.5rem 1rem;
+  padding: 1rem 0.75rem;
 }
 
 .sidebar-title {
-  font-size: 1rem;
+  font-size: inherit;
   font-weight: 600;
-  margin: 0 0 1rem;
-  color: #333;
+  margin: 0 0 0.5rem;
+  color: hsl(var(--foreground));
 }
 
 .sidebar-actions {
@@ -94,49 +95,72 @@ const isSearchPanelOpen = ref(true)
 
 .action-btn {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
   cursor: pointer;
   text-align: left;
 }
 
 .action-btn:hover {
-  background: #f0f0f0;
-  border-color: #ccc;
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
 }
 
 .action-btn.active {
-  background: #e8e8e8;
-  border-color: #999;
+  background: hsl(var(--accent));
+  border-color: hsl(var(--primary));
+  color: hsl(var(--accent-foreground));
 }
 
 .action-icon {
-  font-size: 1rem;
+  flex-shrink: 0;
+  order: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.close-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .content-main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: #fff;
+  padding: 1.5rem;
+  background: hsl(var(--background));
 }
 
 .results-placeholder {
-  color: #888;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
 }
 
+/* Right panel: fixed overlay to match original (425px, shadow, border-left) */
 .sidebar-right {
-  border-right: none;
-  border-left: 1px solid #e0e0e0;
-  padding: 1.5rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 51;
+  width: 425px;
+  max-width: 425px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 4px;
   overflow-y: auto;
+  background: hsl(var(--background));
+  border-left: 1px solid rgb(226, 232, 240);
+  box-shadow: var(--panel-shadow);
 }
 
 .search-panel-header {
@@ -144,52 +168,57 @@ const isSearchPanelOpen = ref(true)
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0 0.75rem;
 }
 
 .search-panel-title {
-  font-size: 1.1rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
   font-weight: 600;
   margin: 0;
-  color: #333;
+  color: hsl(var(--foreground));
 }
 
 .close-btn {
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem;
   background: transparent;
   border: none;
   font-size: 1.5rem;
   line-height: 1;
-  color: #666;
+  color: hsl(var(--muted-foreground));
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: calc(var(--radius) - 4px);
 }
 
 .close-btn:hover {
-  background: #eee;
-  color: #333;
+  background: hsl(var(--accent));
+  color: hsl(var(--foreground));
 }
 
 .search-panel-intro {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 0 0 1.25rem;
-  line-height: 1.4;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 1rem;
+  padding: 0 0.75rem;
 }
 
 .search-panel-body {
   min-height: 120px;
+  padding: 0 0.75rem;
 }
 
 @media (max-width: 900px) {
   .search-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
   }
 
   .sidebar-right {
+    width: 100%;
+    max-width: none;
     border-left: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid rgb(226, 232, 240);
   }
 }
 </style>
