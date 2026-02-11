@@ -11,6 +11,7 @@ import KeywordsField from '@/components/KeywordsField.vue'
 import DateRangeField from '@/components/DateRangeField.vue'
 import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
 import InstancesField from '@/components/InstancesField.vue'
+import DomainsField from '@/components/DomainsField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
@@ -97,6 +98,9 @@ const maxResults = ref(5)
         </div>
         <CollapsibleSection title="Instances" :info-text="fieldInfo.instances">
           <InstancesField />
+        </CollapsibleSection>
+        <CollapsibleSection title="Domains" :info-text="fieldInfo.domains">
+          <DomainsField />
         </CollapsibleSection>
       </section>
     </aside>
