@@ -121,8 +121,6 @@ function toggle() {
 }
 
 .collapsible-section__content {
-  position: relative;
-  z-index: 11;
   padding-top: 0.25rem;
 }
 
