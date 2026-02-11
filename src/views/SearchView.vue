@@ -4,14 +4,15 @@ import IconClass from '@/assets/IconClass.vue'
 import AppButton from '@/components/reusable/AppButton.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
 import AppTextField from '@/components/reusable/AppTextField.vue'
-import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import FormLabel from '@/components/reusable/FormLabel.vue'
+import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
 import DateRangeField from '@/components/DateRangeField.vue'
 import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
 import InstancesField from '@/components/InstancesField.vue'
 import DomainsField from '@/components/DomainsField.vue'
+import AdvancedSettingsField from '@/components/AdvancedSettingsField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
@@ -27,6 +28,12 @@ const keywords = ref<string[]>([])
 const startDate = ref('1990-01-01')
 const endDate = ref(todayISO())
 const maxResults = ref(5)
+const degreesSources = ref(0)
+const degreesTargets = ref(0)
+const documentTypes = ref<Record<string, boolean>>({
+  decision: true,
+  opinion: false,
+})
 </script>
 
 <template>
@@ -101,6 +108,13 @@ const maxResults = ref(5)
         </CollapsibleSection>
         <CollapsibleSection title="Domains" :info-text="fieldInfo.domains">
           <DomainsField />
+        </CollapsibleSection>
+        <CollapsibleSection title="Advanced Settings" :default-open="false">
+          <AdvancedSettingsField
+            v-model:degrees-sources="degreesSources"
+            v-model:degrees-targets="degreesTargets"
+            v-model:document-types="documentTypes"
+          />
         </CollapsibleSection>
       </section>
     </aside>

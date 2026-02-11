@@ -15,4 +15,10 @@ export const fieldInfo = {
     'Filter cases by the court or judicial body that issued the decision. This allows you to focus on specific levels or institutions within the legal system.',
   domains:
     'Filter cases by legal domain (e.g. civil, criminal, administrative law). Use this to narrow your search to a specific area of law.',
+  degreesSources:
+    'Minimum number of times this case is cited by other cases. Higher values return more frequently cited decisions.',
+  degreesTargets:
+    'Minimum number of other cases this case cites. Higher values return more reference-heavy decisions.',
+  documentTypes:
+    'Restrict results to one or more document types.',
 } as const

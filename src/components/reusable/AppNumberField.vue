@@ -53,17 +53,19 @@ function handleBlur(e: Event) {
 
 <template>
   <div class="app-number-field">
-    <input
-      :id="inputId"
-      type="number"
-      :value="modelValue"
-      :min="min"
-      :max="max"
-      :step="step"
-      class="app-number-field__input"
-      @input="handleInput"
-      @blur="handleBlur"
-    />
+    <div class="app-number-field__wrap">
+      <input
+        :id="inputId"
+        type="number"
+        :value="modelValue"
+        :min="min"
+        :max="max"
+        :step="step"
+        class="app-number-field__input"
+        @input="handleInput"
+        @blur="handleBlur"
+      />
+    </div>
   </div>
 </template>
 
@@ -71,6 +73,11 @@ function handleBlur(e: Event) {
 .app-number-field {
   display: flex;
   flex-direction: column;
+}
+
+.app-number-field__wrap {
+  width: 100%;
+  max-width: 8rem;
 }
 
 .app-number-field__input {
