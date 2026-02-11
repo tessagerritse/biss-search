@@ -4,7 +4,7 @@ withDefaults(
     name: 'clock' | 'plus' | 'upload' | 'close'
     iconClass?: string
   }>(),
-  { iconClass: '' }
+  { iconClass: '' },
 )
 </script>
 

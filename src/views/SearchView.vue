@@ -35,11 +35,7 @@ const isSearchPanelOpen = ref(true)
       <p class="results-placeholder">Search results will appear here</p>
     </main>
 
-    <aside
-      v-show="isSearchPanelOpen"
-      class="sidebar sidebar-right"
-      aria-label="Search Documents"
-    >
+    <aside v-show="isSearchPanelOpen" class="sidebar sidebar-right" aria-label="Search Documents">
       <div class="search-panel-header">
         <h2 class="search-panel-title">Search Documents</h2>
         <button
@@ -52,8 +48,8 @@ const isSearchPanelOpen = ref(true)
         </button>
       </div>
       <p class="search-panel-intro">
-        Build your query for the citation analysis here. We offer three different Case Law
-        datasets: Rechtspraak, ECHR and CJEU.
+        Build your query for the citation analysis here. We offer three different Case Law datasets:
+        Rechtspraak, ECHR and CJEU.
       </p>
       <section class="search-panel-body" aria-label="Query builder">
         <!-- Form content will be added later -->
