@@ -7,9 +7,11 @@ import AppTextField from '@/components/AppTextField.vue'
 import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
+import DateRangeField from '@/components/DateRangeField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
+import { todayISO } from '@/utils/date'
 
 const isSearchPanelOpen = ref(true)
 const dataset = ref<DatasetId>('rechtspraak')
@@ -17,6 +19,9 @@ const semanticQuery = ref('')
 const lawRefsOperator = ref<LawRefsOperator>('and')
 const lawRefsQuery = ref('')
 const keywords = ref<string[]>([])
+
+const startDate = ref('1990-01-01')
+const endDate = ref(todayISO())
 </script>
 
 <template>
@@ -79,6 +84,7 @@ const keywords = ref<string[]>([])
           <KeywordsField v-model="keywords" />
         </div>
         <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
+        <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
       </section>
     </aside>
   </div>
@@ -146,7 +152,6 @@ const keywords = ref<string[]>([])
   color: hsl(var(--muted-foreground));
 }
 
-/* Right panel: fixed overlay to match original (425px, shadow, border-left) */
 .sidebar-right {
   position: fixed;
   top: 0;
