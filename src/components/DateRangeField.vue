@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
+import FormLabel from '@/components/reusable/FormLabel.vue'
 import { toDDMMYYYY, todayISO } from '@/utils/date'
 
 const props = defineProps<{
@@ -13,8 +14,29 @@ const emit = defineEmits<{
   'update:endDate': [value: string]
 }>()
 
+const startNativeRef = ref<HTMLInputElement | null>(null)
+const endNativeRef = ref<HTMLInputElement | null>(null)
+
 const formattedStart = computed(() => toDDMMYYYY(props.startDate))
 const formattedEnd = computed(() => toDDMMYYYY(props.endDate))
+
+function openPicker(inputRef: HTMLInputElement | null) {
+  if (!inputRef) return
+  if (typeof inputRef.showPicker === 'function') {
+    inputRef.showPicker()
+  } else {
+    inputRef.focus()
+    inputRef.click()
+  }
+}
+
+function openStartPicker() {
+  openPicker(startNativeRef.value)
+}
+
+function openEndPicker() {
+  openPicker(endNativeRef.value)
+}
 
 function onStartChange(e: Event) {
   const value = (e.target as HTMLInputElement).value
@@ -30,8 +52,25 @@ function onEndChange(e: Event) {
 <template>
   <div class="date-range-field">
     <div class="form-section">
-      <span class="form-label">Start Date</span>
-      <div class="date-input-wrap">
+      <FormLabel label="Start Date" />
+      <div
+        class="date-input-wrap"
+        role="button"
+        tabindex="0"
+        @click="openStartPicker"
+        @keydown.enter.prevent="openStartPicker"
+        @keydown.space.prevent="openStartPicker"
+      >
+        <input
+          ref="startNativeRef"
+          type="date"
+          class="date-input-native"
+          :value="startDate"
+          :max="todayISO()"
+          aria-label="Start date (DD/MM/YYYY)"
+          tabindex="-1"
+          @change="onStartChange"
+        />
         <input
           type="text"
           class="date-input"
@@ -40,20 +79,29 @@ function onEndChange(e: Event) {
           aria-label="Start date (DD/MM/YYYY)"
           tabindex="-1"
         />
-        <input
-          type="date"
-          class="date-input-native"
-          :value="startDate"
-          :max="todayISO()"
-          aria-label="Start date (DD/MM/YYYY)"
-          @change="onStartChange"
-        />
         <IconClass name="calendar" icon-class="date-input-icon" />
       </div>
     </div>
     <div class="form-section">
-      <span class="form-label">End Date</span>
-      <div class="date-input-wrap">
+      <FormLabel label="End Date" />
+      <div
+        class="date-input-wrap"
+        role="button"
+        tabindex="0"
+        @click="openEndPicker"
+        @keydown.enter.prevent="openEndPicker"
+        @keydown.space.prevent="openEndPicker"
+      >
+        <input
+          ref="endNativeRef"
+          type="date"
+          class="date-input-native"
+          :value="endDate"
+          :max="todayISO()"
+          aria-label="End date (DD/MM/YYYY)"
+          tabindex="-1"
+          @change="onEndChange"
+        />
         <input
           type="text"
           class="date-input"
@@ -61,14 +109,6 @@ function onEndChange(e: Event) {
           readonly
           aria-label="End date (DD/MM/YYYY)"
           tabindex="-1"
-        />
-        <input
-          type="date"
-          class="date-input-native"
-          :value="endDate"
-          :max="todayISO()"
-          aria-label="End date (DD/MM/YYYY)"
-          @change="onEndChange"
         />
         <IconClass name="calendar" icon-class="date-input-icon" />
       </div>
@@ -117,6 +157,7 @@ function onEndChange(e: Event) {
   font-family: inherit;
   color: inherit;
   cursor: pointer;
+  pointer-events: none;
 }
 
 .date-input:focus {
@@ -125,12 +166,12 @@ function onEndChange(e: Event) {
 
 .date-input-native {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 0;
+  height: 0;
   opacity: 0;
-  cursor: pointer;
-  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
 }
 
 .date-input-icon {

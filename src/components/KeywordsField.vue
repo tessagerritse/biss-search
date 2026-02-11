@@ -16,7 +16,10 @@ const inputEl = ref<HTMLInputElement | null>(null)
 function commitInput() {
   const raw = inputValue.value.trim()
   if (!raw) return
-  const parts = raw.split(',').map((s) => s.trim()).filter(Boolean)
+  const parts = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
   if (parts.length === 0) return
   emit('update:modelValue', [...props.modelValue, ...parts])
   inputValue.value = ''
@@ -38,40 +41,30 @@ function handleKeydown(e: KeyboardEvent) {
     removeKeyword(props.modelValue.length - 1)
   }
 }
-
 </script>
 
 <template>
-  <div
-    class="keywords-input-wrap"
-    role="group"
-    aria-label="Keywords"
-    @click="inputEl?.focus()"
-  >
-      <span
-        v-for="(keyword, index) in modelValue"
-        :key="`${keyword}-${index}`"
-        class="keyword-chip"
+  <div class="keywords-input-wrap" role="group" aria-label="Keywords" @click="inputEl?.focus()">
+    <span v-for="(keyword, index) in modelValue" :key="`${keyword}-${index}`" class="keyword-chip">
+      <span class="keyword-chip__text">{{ keyword }}</span>
+      <button
+        type="button"
+        class="keyword-chip__remove"
+        :aria-label="`Remove ${keyword}`"
+        @click.stop="removeKeyword(index)"
       >
-        <span class="keyword-chip__text">{{ keyword }}</span>
-        <button
-          type="button"
-          class="keyword-chip__remove"
-          :aria-label="`Remove ${keyword}`"
-          @click.stop="removeKeyword(index)"
-        >
-          <IconClass name="close" icon-class="keyword-chip__icon" />
-        </button>
-      </span>
-      <input
-        ref="inputEl"
-        v-model="inputValue"
-        type="text"
-        class="keywords-input"
-        :placeholder="modelValue.length === 0 ? 'Type and press Enter or comma' : ''"
-        autocomplete="off"
-        @keydown="handleKeydown"
-      />
+        <IconClass name="close" icon-class="keyword-chip__icon" />
+      </button>
+    </span>
+    <input
+      ref="inputEl"
+      v-model="inputValue"
+      type="text"
+      class="keywords-input"
+      :placeholder="modelValue.length === 0 ? 'Type and press Enter or comma' : ''"
+      autocomplete="off"
+      @keydown="handleKeydown"
+    />
   </div>
 </template>
 

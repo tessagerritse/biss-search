@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
-import AppButton from '@/components/AppButton.vue'
+import AppButton from '@/components/reusable/AppButton.vue'
 import DatasetTabs from '@/components/DatasetTabs.vue'
-import AppTextField from '@/components/AppTextField.vue'
-import AppNumberField from '@/components/AppNumberField.vue'
-import FormLabelWithInfo from '@/components/FormLabelWithInfo.vue'
+import AppTextField from '@/components/reusable/AppTextField.vue'
+import FormLabel from '@/components/reusable/FormLabel.vue'
+import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import LawReferencesField from '@/components/LawReferencesField.vue'
 import KeywordsField from '@/components/KeywordsField.vue'
 import DateRangeField from '@/components/DateRangeField.vue'
+import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
+import InstancesField from '@/components/InstancesField.vue'
+import DomainsField from '@/components/DomainsField.vue'
+import AdvancedSettingsField from '@/components/AdvancedSettingsField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
 import { fieldInfo } from '@/copy/fieldInfo'
@@ -24,6 +28,12 @@ const keywords = ref<string[]>([])
 const startDate = ref('1990-01-01')
 const endDate = ref(todayISO())
 const maxResults = ref(5)
+const degreesSources = ref(0)
+const degreesTargets = ref(0)
+const documentTypes = ref<Record<string, boolean>>({
+  decision: true,
+  opinion: false,
+})
 </script>
 
 <template>
@@ -70,11 +80,11 @@ const maxResults = ref(5)
       <p class="search-panel-intro">Build your query for the citation analysis here.</p>
       <section class="search-panel-body" aria-label="Query builder">
         <div class="form-section">
-          <FormLabelWithInfo label="Dataset" :info-text="fieldInfo.dataset" />
+          <FormLabel label="Dataset" :info-text="fieldInfo.dataset" />
           <DatasetTabs v-model="dataset" />
         </div>
         <div class="form-section">
-          <FormLabelWithInfo label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
+          <FormLabel label="Semantic Search" :info-text="fieldInfo.semanticSearch" />
           <AppTextField
             v-model="semanticQuery"
             type="search"
@@ -82,15 +92,30 @@ const maxResults = ref(5)
           />
         </div>
         <div class="form-section">
-          <FormLabelWithInfo label="Keywords" :info-text="fieldInfo.keywords" />
+          <FormLabel label="Keywords" :info-text="fieldInfo.keywords" />
           <KeywordsField v-model="keywords" />
         </div>
         <LawReferencesField v-model:query="lawRefsQuery" v-model:operator="lawRefsOperator" />
-        <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
+        <CollapsibleSection title="Date range" :info-text="fieldInfo.dateRange">
+          <DateRangeField v-model:start-date="startDate" v-model:end-date="endDate" />
+        </CollapsibleSection>
         <div class="form-section">
-          <span class="form-label">Max number of results</span>
+          <FormLabel label="Max number of results" />
           <AppNumberField v-model="maxResults" :min="1" />
         </div>
+        <CollapsibleSection title="Instances" :info-text="fieldInfo.instances">
+          <InstancesField />
+        </CollapsibleSection>
+        <CollapsibleSection title="Domains" :info-text="fieldInfo.domains">
+          <DomainsField />
+        </CollapsibleSection>
+        <CollapsibleSection title="Advanced Settings" :default-open="false">
+          <AdvancedSettingsField
+            v-model:degrees-sources="degreesSources"
+            v-model:degrees-targets="degreesTargets"
+            v-model:document-types="documentTypes"
+          />
+        </CollapsibleSection>
       </section>
     </aside>
   </div>

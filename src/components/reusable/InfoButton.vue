@@ -2,10 +2,14 @@
 import { ref, nextTick, onBeforeUnmount } from 'vue'
 import IconClass from '@/assets/IconClass.vue'
 
-defineProps<{
-  label: string
-  infoText?: string
-}>()
+withDefaults(
+  defineProps<{
+    infoText: string
+    /** Popover alignment: left (default) or right */
+    popoverAlign?: 'left' | 'right'
+  }>(),
+  { popoverAlign: 'left' },
+)
 
 const showInfo = ref(false)
 const wrapRef = ref<HTMLDivElement | null>(null)
@@ -43,33 +47,34 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="form-label-row">
-    <span class="form-label">{{ label }}</span>
-    <div v-if="infoText" ref="wrapRef" class="form-label-with-info__wrap">
-      <button
-        type="button"
-        class="form-label-with-info__btn"
-        :aria-expanded="showInfo"
-        aria-label="What is this field for?"
-        @click="toggleInfo"
-      >
-        <IconClass name="info" icon-class="form-label-with-info__icon" />
-      </button>
-      <div v-if="showInfo" class="form-label-with-info__popover" role="tooltip">
-        {{ infoText }}
-      </div>
+  <div
+    ref="wrapRef"
+    class="info-button"
+    :class="{ 'info-button--popover-right': popoverAlign === 'right' }"
+  >
+    <button
+      type="button"
+      class="info-button__btn"
+      :aria-expanded="showInfo"
+      aria-label="What is this for?"
+      @click="toggleInfo"
+    >
+      <IconClass name="info" icon-class="info-button__icon" />
+    </button>
+    <div v-if="showInfo" class="info-button__popover" role="tooltip">
+      {{ infoText }}
     </div>
   </div>
 </template>
 
 <style scoped>
-.form-label-with-info__wrap {
+.info-button {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-.form-label-with-info__btn {
+.info-button__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -82,24 +87,24 @@ onBeforeUnmount(() => {
   line-height: 0;
 }
 
-.form-label-with-info__btn:hover {
+.info-button__btn:hover {
   color: hsl(var(--foreground));
   background: hsl(var(--accent));
 }
 
-.form-label-with-info__btn:focus-visible {
+.info-button__btn:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px hsl(var(--ring));
 }
 
-.form-label-with-info__icon {
+.info-button__icon {
   width: 1rem;
   height: 1rem;
   display: block;
   vertical-align: middle;
 }
 
-.form-label-with-info__popover {
+.info-button__popover {
   position: absolute;
   z-index: 10;
   top: 100%;
@@ -115,5 +120,10 @@ onBeforeUnmount(() => {
   border: 1px solid hsl(var(--border));
   border-radius: calc(var(--radius) - 2px);
   box-shadow: var(--panel-shadow);
+}
+
+.info-button--popover-right .info-button__popover {
+  left: auto;
+  right: 0;
 }
 </style>

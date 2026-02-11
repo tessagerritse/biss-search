@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppButton from '@/components/AppButton.vue'
+import AppButton from '@/components/reusable/AppButton.vue'
 
 export type DatasetId = 'rechtspraak' | 'echr' | 'cjeu'
 
