@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import IconClass from '@/assets/IconClass.vue'
+
 import InfoButton from '@/components/reusable/InfoButton.vue'
 
 const props = withDefaults(

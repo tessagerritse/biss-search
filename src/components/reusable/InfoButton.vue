@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, nextTick, onBeforeUnmount } from 'vue'
+
 import IconClass from '@/assets/IconClass.vue'
 
 withDefaults(

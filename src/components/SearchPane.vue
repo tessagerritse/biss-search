@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import IconClass from '@/assets/IconClass.vue'
-import AppTextField from '@/components/reusable/AppTextField.vue'
-import AppButton from '@/components/reusable/AppButton.vue'
-import SubmitSearchButton from '@/components/SubmitSearchButton.vue'
-import FormLabel from '@/components/reusable/FormLabel.vue'
-import AppNumberField from '@/components/reusable/AppNumberField.vue'
+
 import DatasetTabs from '@/components/DatasetTabs.vue'
-import LawReferencesField from '@/components/LawReferencesField.vue'
-import KeywordsField from '@/components/KeywordsField.vue'
-import DateRangeField from '@/components/DateRangeField.vue'
-import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
-import InstancesField from '@/components/InstancesField.vue'
 import DomainsField from '@/components/DomainsField.vue'
-import AdvancedSettingsField from '@/components/AdvancedSettingsField.vue'
+import KeywordsField from '@/components/KeywordsField.vue'
+import AppButton from '@/components/reusable/AppButton.vue'
+import FormLabel from '@/components/reusable/FormLabel.vue'
+import DateRangeField from '@/components/DateRangeField.vue'
+import InstancesField from '@/components/InstancesField.vue'
 import type { DatasetId } from '@/components/DatasetTabs.vue'
+import AppTextField from '@/components/reusable/AppTextField.vue'
+import LawReferencesField from '@/components/LawReferencesField.vue'
+import SubmitSearchButton from '@/components/SubmitSearchButton.vue'
+import AppNumberField from '@/components/reusable/AppNumberField.vue'
+import AdvancedSettingsField from '@/components/AdvancedSettingsField.vue'
 import type { LawRefsOperator } from '@/components/LawReferencesField.vue'
+import CollapsibleSection from '@/components/reusable/CollapsibleSection.vue'
+
 import { fieldInfo } from '@/copy/fieldInfo'
 
 defineProps<{

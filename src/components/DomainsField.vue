@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import CollapsibleCheckboxGroup from '@/components/reusable/CollapsibleCheckboxGroup.vue'
+
 import { DOMAIN_GROUPS } from '@/copy/domainOptions'
 
 const allIds = DOMAIN_GROUPS.flatMap((g) => [g.id, ...g.children.map((c) => c.id)])
 
-const selected = ref<Record<string, boolean>>(
-  Object.fromEntries(allIds.map((id) => [id, false])),
-)
+const selected = ref<Record<string, boolean>>(Object.fromEntries(allIds.map((id) => [id, false])))
 </script>
 
 <template>

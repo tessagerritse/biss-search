@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import FormLabel from '@/components/reusable/FormLabel.vue'
+import AppNumberField from '@/components/reusable/AppNumberField.vue'
 import DocumentTypesField from '@/components/DocumentTypesField.vue'
+
 import { fieldInfo } from '@/copy/fieldInfo'
 
 defineProps<{

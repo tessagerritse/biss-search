@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import IconClass from '@/assets/IconClass.vue'
+
 import AppButton from '@/components/reusable/AppButton.vue'
 
 defineProps<{
