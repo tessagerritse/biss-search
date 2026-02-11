@@ -3,7 +3,7 @@ import AppButton from '@/components/reusable/AppButton.vue'
 
 defineProps<{
   disabled: boolean
-  /** Shown when hovering the button area while disabled (browsers often don't show title on disabled buttons, so we use a wrapper). */
+  /** Shown when hovering the button (e.g. why it is disabled). */
   disabledTooltip?: string
 }>()
 
@@ -13,27 +13,19 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <span
+  <AppButton
+    type="submit"
+    appearance="emphasized"
+    class="submit-search-btn__btn"
+    :disabled="disabled"
     :title="disabled ? disabledTooltip : undefined"
-    class="submit-search-btn"
+    @click.prevent="emit('submit')"
   >
-    <AppButton
-      type="submit"
-      appearance="emphasized"
-      class="submit-search-btn__btn"
-      :disabled="disabled"
-      @click.prevent="emit('submit')"
-    >
-      <slot>Submit</slot>
-    </AppButton>
-  </span>
+    <slot>Submit</slot>
+  </AppButton>
 </template>
 
 <style scoped>
-.submit-search-btn {
-  display: inline-block;
-}
-
 .submit-search-btn__btn {
   min-width: 6rem;
 }

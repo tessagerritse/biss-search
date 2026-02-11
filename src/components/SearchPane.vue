@@ -51,7 +51,10 @@ const emit = defineEmits<{
 <template>
   <aside class="search-pane" aria-label="Search Documents">
     <div class="search-pane__header">
-      <h2 class="search-pane__title">Search Documents</h2>
+      <div class="search-pane__header-text">
+        <h2 class="search-pane__title">Search Documents</h2>
+        <p class="search-pane__intro">Build your query for the citation analysis here.</p>
+      </div>
       <button
         type="button"
         class="search-pane__close"
@@ -61,7 +64,6 @@ const emit = defineEmits<{
         <IconClass name="close" icon-class="search-pane__close-icon" />
       </button>
     </div>
-    <p class="search-pane__intro">Build your query for the citation analysis here.</p>
     <div class="search-pane__scroll">
       <section class="search-pane__body" aria-label="Query builder">
         <div class="search-pane__section">
@@ -157,11 +159,19 @@ const emit = defineEmits<{
 .search-pane__header {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.5rem;
   padding: 1rem 0.75rem;
   border-bottom: 1px solid hsl(var(--border));
+}
+
+.search-pane__header-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .search-pane__title {
@@ -194,11 +204,9 @@ const emit = defineEmits<{
 }
 
 .search-pane__intro {
-  flex-shrink: 0;
   font-size: 0.875rem;
   color: hsl(var(--muted-foreground));
   margin: 0;
-  padding: 0.75rem 0.75rem 0;
   line-height: 1.45;
 }
 
@@ -206,7 +214,8 @@ const emit = defineEmits<{
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding-bottom: 0.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .search-pane__body {
